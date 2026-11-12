@@ -16,6 +16,7 @@
   background: #f1f5f9;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+input, select { user-select: text; font-family: inherit; }
 html, body {
   width: 100vw;
   height: 100vh;
@@ -29,7 +30,7 @@ body {
   gap: 8px;
 }
 
-/* 터치 버튼 공통 */
+/* 버튼 공통 */
 button {
   border: 0;
   border-radius: 12px;
@@ -44,36 +45,23 @@ button {
 button:active { transform: scale(0.96); }
 button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
-.btn-main { background: #17365d; color: #fff; font-size: 1.25rem; font-weight: 800; }
-.btn-sub { background: #475569; color: #fff; font-size: 1.1rem; }
-.btn-danger { background: #ef4444; color: #fff; font-size: 1.05rem; }
+.btn-main { background: #17365d; color: #fff; font-size: 1.1rem; font-weight: 800; }
+.btn-sub { background: #475569; color: #fff; font-size: 1rem; }
+.btn-danger { background: #ef4444; color: #fff; font-size: 1rem; }
 .btn-success { background: #16a34a; color: #fff; font-size: 1.4rem; font-weight: 900; }
-.btn-blood { background: #dc2626; color: #fff; font-size: 1.1rem; font-weight: 700; }
 .btn-share { background: #7c3aed; color: #fff; font-size: 1.05rem; font-weight: 800; }
 .btn-neutral { background: #cbd5e1; color: #1e293b; font-size: 1rem; }
 
-/* 레이아웃 구조 */
+/* 레이아웃 */
 .app-container {
   display: flex;
   flex: 1;
   gap: 8px;
-  height: calc(100vh - 88px);
+  min-height: 0;
 }
-
 .col-left, .scan-section { min-height: 0; }
-.col-left {
-  flex: 4;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.col-right {
-  flex: 6;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.col-left { flex: 4; display: flex; flex-direction: column; gap: 8px; }
+.col-right { flex: 6; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
 
 .card {
   background: #ffffff;
@@ -83,7 +71,6 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
   display: flex;
   flex-direction: column;
 }
-
 .card-title {
   font-size: 0.9rem;
   font-weight: 700;
@@ -92,27 +79,18 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 /* 1. QR 스캔 영역 */
-.scan-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.scan-btn-group {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 6px;
-  height: 52px;
-}
+.scan-section { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.scan-btn-group { display: grid; grid-template-columns: 2fr 1fr; gap: 6px; height: 44px; flex: none; }
 
 #video {
   width: 100%;
-  flex: 1 1 0;          /* 남는 세로 공간을 채움 */
-  min-height: 110px;
-  max-height: 550px;    /* 기존 110px의 5배까지 */
+  flex: 1 1 0;
+  min-height: 90px;
+  max-height: 260px;
   object-fit: cover;
   background: #000;
   border-radius: 10px;
@@ -131,141 +109,102 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 }
 .status-badge.active { background: #dcfce7; color: #15803d; font-weight: 700; }
 
-.manual-area {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-textarea {
-  flex: 1;
-  height: 38px;
-  font-size: 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 6px;
-  resize: none;
-}
-.manual-btn-group {
-  display: flex;
-  gap: 4px;
-}
-.manual-btn-group button {
-  height: 38px;
-  padding: 0 10px;
-  font-size: 0.85rem;
-}
-
-/* 2. 대상자 요약 */
+/* 읽은 대상자 (크게) */
 .person-summary {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1.4fr 1.3fr;
   gap: 6px;
   background: #f8fafc;
-  padding: 8px;
+  padding: 8px 6px;
   border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  text-align: center;
-}
-.person-summary small { display: block; font-size: 0.75rem; color: #64748b; }
-.person-summary strong { font-size: 1.1rem; color: #0f172a; white-space: nowrap; }
-
-/* 3. 체크박스 & 수량 선택 (거대 터치 버튼) */
-.selection-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 8px;
-  flex: 1;
-}
-
-.check-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f8fafc;
   border: 2px solid #cbd5e1;
-  border-radius: 14px;
-  padding: 10px 14px;
-  cursor: pointer;
-  user-select: none;
+  text-align: center;
+  flex: none;
 }
-.check-card.checked {
-  background: #eff6ff;
-  border-color: #2563eb;
-}
-.check-card input[type="checkbox"] {
-  width: 28px;
-  height: 28px;
-  accent-color: #2563eb;
-  cursor: pointer;
-}
-.check-card label {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #1e293b;
-  cursor: pointer;
-  flex: 1;
-  margin-left: 10px;
-}
-.check-card .sub {
-  font-size: 0.8rem;
-  color: #64748b;
-  font-weight: 500;
+.person-summary small { display: block; font-size: 0.8rem; color: #64748b; font-weight: 700; }
+.person-summary strong {
   display: block;
+  font-size: 2.1rem;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-/* BEI 초대형 + / - 컨트롤러 */
-.bei-card {
-  grid-column: span 2;
+/* 직접 입력 */
+.manual-box { flex: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; }
+.manual-title { font-size: 0.75rem; color: #64748b; font-weight: 700; margin-bottom: 5px; }
+.manual-inputs { display: grid; grid-template-columns: 1fr 1.3fr 1.5fr; gap: 6px; }
+.manual-inputs input {
+  height: 44px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0 8px;
+  min-width: 0;
+  background: #fff;
+}
+.manual-btns { display: grid; grid-template-columns: 2fr 1fr; gap: 6px; margin-top: 6px; }
+.manual-btns button { height: 42px; }
+
+/* 2. 검사 라벨 항목 (터치 버튼) */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: minmax(88px, auto);
+  gap: 8px;
+  flex: 1;
+  overflow: auto;
+  align-content: start;
+}
+.item-card {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   background: #f8fafc;
   border: 2px solid #cbd5e1;
   border-radius: 14px;
-  padding: 6px 14px;
+  padding: 10px 12px;
+  cursor: pointer;
 }
-.bei-title {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #1e293b;
+.item-card.on { background: #eff6ff; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.18); }
+.ic-name { font-size: 1.25rem; font-weight: 800; color: #1e293b; }
+.ic-sub { font-size: 0.8rem; color: #64748b; margin-top: 2px; font-weight: 600; }
+.ic-tag { font-size: 0.7rem; color: #94a3b8; margin-top: 2px; font-weight: 700; }
+.ic-check {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 900; color: #fff; flex: none;
 }
-.bei-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.btn-qty {
-  width: 64px;
-  height: 64px;
-  font-size: 2.2rem;
-  font-weight: 900;
-  background: #2563eb;
-  color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 3px 8px rgba(37,99,235,0.3);
-}
-.btn-qty:active { background: #1d4ed8; }
-.bei-val {
-  font-size: 2.2rem;
-  font-weight: 900;
-  min-width: 45px;
-  text-align: center;
-  color: #0f172a;
-}
+.item-card.on .ic-check { background: #2563eb; border-color: #2563eb; }
+.ic-step { display: flex; align-items: center; gap: 8px; flex: none; }
+.ic-step button { width: 52px; height: 52px; font-size: 1.8rem; font-weight: 900; background: #2563eb; color: #fff; border-radius: 14px; }
+.ic-step span { min-width: 34px; text-align: center; font-size: 1.8rem; font-weight: 900; color: #0f172a; }
 
-/* 하단 거대 인쇄 바 */
-.bottom-bar {
-  height: 72px;
-  display: grid;
-  grid-template-columns: 3fr 2.2fr 1.5fr 1fr;
-  gap: 8px;
+.card[hidden] { display: none; }
+.tabs { display: flex; gap: 6px; flex: none; }
+.tab { flex: 1; height: 44px; background: #dbe3ee; color: #334155; font-size: 1.05rem; border-radius: 12px; }
+.tab.on { background: #17365d; color: #fff; }
+.tab .cnt { margin-left: 6px; background: rgba(255,255,255,0.25); border-radius: 10px; padding: 0 8px; font-size: 0.85rem; }
+.tab:not(.on) .cnt { background: #fff; color: #17365d; }
+.hist-list { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 6px; }
+.hist-row {
+  display: grid; grid-template-columns: 70px 1.2fr 1fr 1.6fr; align-items: center; gap: 8px;
+  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 10px 12px; cursor: pointer;
 }
-.bottom-bar button {
-  height: 100%;
-  border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
+.hist-row.on { background: #eff6ff; border-color: #2563eb; }
+.hist-row .hn { font-size: 1.5rem; font-weight: 900; color: #0f172a; text-align: center; }
+.hist-row .hname { font-size: 1.3rem; font-weight: 800; color: #1e293b; }
+.hist-row .hdob { font-size: 1.1rem; font-weight: 700; color: #475569; }
+.hist-row .hmeta { font-size: 0.78rem; color: #64748b; font-weight: 600; text-align: right; line-height: 1.35; }
+.hist-row .pr { color: #16a34a; font-weight: 800; }
+.hist-empty { color: #64748b; padding: 16px; text-align: center; }
+.hist-ctl select { height: 32px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 6px; font-size: 0.85rem; background: #fff; }
 
 .mini-queue {
   font-size: 0.85rem;
@@ -273,43 +212,88 @@ textarea {
   background: #f8fafc;
   border-radius: 8px;
   padding: 6px 10px;
-  margin-top: 4px;
-  max-height: 48px;
+  margin-top: 6px;
+  max-height: 52px;
   overflow-y: auto;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  flex: none;
 }
-.queue-tag {
-  background: #e2e8f0;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-weight: 700;
-  color: #1e293b;
-}
+.queue-tag { background: #e2e8f0; padding: 2px 8px; border-radius: 6px; font-weight: 700; color: #1e293b; }
 
-@media print{
- @page{size:50mm 30mm;margin:0}
- html,body{width:50mm!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
- body *{visibility:hidden!important}
- #printRoot,#printRoot *{visibility:visible!important}
- #printRoot{position:absolute;left:0;top:0;width:50mm;margin:0;padding:0}
- .print-label{width:50mm;height:30mm;page-break-after:always;break-after:page;overflow:hidden;position:relative;padding:1.2mm 1.5mm;color:#000;background:#fff}
- .print-label:last-child{page-break-after:auto;break-after:auto}
- .basic{font-family:Arial,"Noto Sans KR",sans-serif;font-size:8pt;font-weight:700;white-space:nowrap;line-height:1.15}
- .test{font-family:Arial,"Noto Sans KR",sans-serif;font-size:12pt;font-weight:700;text-align:center;margin-top:2mm;line-height:1.2}
- .blood-basic{position:absolute;top:2mm;left:0;width:50mm;height:10mm;display:flex;align-items:center;justify-content:center;padding:0 1mm;font-family:Arial,"Noto Sans KR",sans-serif;font-size:8.5pt;font-weight:700;white-space:nowrap}
+/* 하단 인쇄 바 */
+.bottom-bar {
+  height: 72px;
+  display: grid;
+  grid-template-columns: 3fr 2.2fr 1fr;
+  gap: 8px;
+  flex: none;
+}
+.bottom-bar.native { grid-template-columns: 3fr 1fr; }
+.bottom-bar button { height: 100%; border-radius: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
+
+.printer-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex: none; }
+.printer-row .status-badge { flex: 1; cursor: pointer; font-size: 0.9rem; padding: 8px 10px; }
+.printer-row button { height: 36px; padding: 0 12px; font-size: 0.9rem; }
+.status-badge.err { background: #fee2e2; color: #b91c1c; font-weight: 700; }
+.mini-btn { height: 32px; padding: 0 10px; font-size: 0.85rem; }
+
+/* 모달 */
+.modal { position: fixed; inset: 0; background: rgba(15,23,42,0.55); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal[hidden] { display: none; }
+.modal-box { background: #fff; border-radius: 14px; padding: 16px; width: min(580px, 94vw); max-height: 94vh; overflow: auto; }
+.modal-box.wide { width: min(880px, 96vw); }
+.modal-box h3 { font-size: 1.05rem; margin-bottom: 4px; }
+.modal-box p { font-size: 0.78rem; color: #64748b; margin-bottom: 10px; }
+.set-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px 12px; }
+.set-grid label { font-size: 0.78rem; color: #475569; display: flex; flex-direction: column; gap: 3px; }
+.set-grid input, .set-grid select { height: 38px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 8px; font-size: 1rem; }
+.set-grid .chk { flex-direction: row; align-items: center; gap: 8px; font-size: 0.9rem; }
+.set-grid .chk input { width: 22px; height: 22px; }
+.modal-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: flex-end; flex-wrap: wrap; }
+.modal-actions button { height: 44px; padding: 0 16px; font-size: 0.95rem; }
+
+/* 라벨 항목 편집기 */
+.item-edit { border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px; margin-bottom: 10px; background: #f8fafc; }
+.ie-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; margin-bottom: 8px; }
+.ie-row label { font-size: 0.75rem; color: #475569; display: flex; flex-direction: column; gap: 3px; }
+.ie-row .grow { flex: 1; min-width: 150px; }
+.item-edit input[type="text"], .item-edit input[type="number"], .item-edit select {
+  height: 40px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 8px; font-size: 1rem; background: #fff;
+}
+.item-edit .chk { flex-direction: row; align-items: center; gap: 6px; font-size: 0.85rem; white-space: nowrap; }
+.item-edit .chk input { width: 22px; height: 22px; }
+.ie-label { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.ie-label .t { flex: 1; min-width: 120px; }
+.ie-label .n { width: 64px; text-align: center; }
+.ie-label .x { height: 36px; width: 36px; background: #e2e8f0; color: #475569; font-size: 1rem; }
+.ie-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.ie-actions button { height: 36px; padding: 0 12px; font-size: 0.85rem; }
+.hint { font-size: 0.72rem; color: #64748b; font-weight: 500; }
+
+@media print {
+  @page { size: 50mm 30mm; margin: 0 }
+  html, body { width: 50mm !important; height: auto !important; margin: 0 !important; padding: 0 !important; background: #fff !important; overflow: visible !important }
+  body * { visibility: hidden !important }
+  #printRoot, #printRoot * { visibility: visible !important }
+  #printRoot { position: absolute; left: 0; top: 0; width: 50mm; margin: 0; padding: 0 }
+  .print-label { width: 50mm; height: 30mm; page-break-after: always; break-after: page; overflow: hidden; position: relative; padding: 1.2mm 1.5mm; color: #000; background: #fff }
+  .print-label:last-child { page-break-after: auto; break-after: auto }
+  .basic { font-family: Arial, "Noto Sans KR", sans-serif; font-size: 8pt; font-weight: 700; white-space: nowrap; line-height: 1.15 }
+  .test { font-family: Arial, "Noto Sans KR", sans-serif; font-size: 9pt; font-weight: 700; text-align: center; margin-top: 3mm; line-height: 1.2 }
+  .blood-basic { position: absolute; top: 2mm; left: 0; width: 50mm; height: 10mm; display: flex; align-items: center; justify-content: center; padding: 0 1mm; font-family: Arial, "Noto Sans KR", sans-serif; font-size: 8.5pt; font-weight: 700; white-space: nowrap }
 }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  <!-- 왼쪽 컴팩트 정보 & QR 입력 영역 -->
+  <!-- 왼쪽: QR 스캔 / 대상자 / 직접 입력 -->
   <div class="col-left">
     <div class="card scan-section">
       <div class="card-title">
-        <span>1. QR 스캔 및 정보 관리</span>
+        <span>1. QR 스캔 · 대상자</span>
         <span id="scanStatus" class="status-badge">대기 중</span>
       </div>
 
@@ -325,290 +309,752 @@ textarea {
         <div><small>생년월일</small><strong id="pDob">-</strong></div>
       </div>
 
-      <div class="manual-area">
-        <textarea id="manual" placeholder='직접입력 JSON: {"number":"1","name":"홍길동","dob6":"650911","general":"O"}'></textarea>
-        <div class="manual-btn-group">
-          <button class="btn-sub" id="loadManual">적용</button>
+      <div class="manual-box">
+        <div class="manual-title">QR이 안 읽힐 때 직접 입력</div>
+        <div class="manual-inputs">
+          <input id="mNum" inputmode="numeric" autocomplete="off" placeholder="순번">
+          <input id="mName" autocomplete="off" placeholder="이름">
+          <input id="mDob" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="생년월일 6자리">
+        </div>
+        <div class="manual-btns">
+          <button class="btn-main" id="applyManual">적용</button>
           <button class="btn-danger" id="clearPerson">초기화</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 오른쪽 터치용 검사 항목 선택 영역 (대형 버튼 배치) -->
+  <!-- 오른쪽: 검사 라벨 항목 -->
   <div class="col-right">
-    <div class="card" style="flex:1;">
+    <div class="tabs">
+      <button class="tab on" id="tabSel" data-tab="sel">라벨 선택</button>
+      <button class="tab" id="tabList" data-tab="list">당일 명단<span class="cnt" id="listCount">0</span></button>
+    </div>
+
+    <div class="card" id="paneSel" style="flex:1; min-height:0;">
       <div class="card-title">
-        <span>2. 검사 라벨 선택 (터치)</span>
-        <span id="flags" style="font-size:0.75rem; color:#64748b;">일반 / 대장암 미확인</span>
+        <span>2. 검사 라벨 선택 (버튼을 눌러 선택/해제)</span>
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span id="flags" style="font-size:0.75rem; color:#64748b; font-weight:600;">QR 미확인</span>
+          <button class="btn-sub mini-btn" id="itemsBtn">⚙ 라벨 항목 설정</button>
+        </span>
       </div>
 
-      <div class="selection-grid">
-        <div class="check-card" id="cardGeneral" onclick="toggleCheck('general')">
-          <input type="checkbox" id="general" onclick="event.stopPropagation()">
-          <label for="general">일반검진<span class="sub">CBC·LFT·Urine</span></label>
-        </div>
-
-        <div class="check-card" id="cardExtra" onclick="toggleCheck('extra')">
-          <input type="checkbox" id="extra" onclick="event.stopPropagation()">
-          <label for="extra">추가검사<span class="sub">CBC·LFT 추가 2장</span></label>
-        </div>
-
-        <div class="check-card" id="cardColon" onclick="toggleCheck('colon')">
-          <input type="checkbox" id="colon" onclick="event.stopPropagation()">
-          <label for="colon">대장암검진<span class="sub">대장암 1장</span></label>
-        </div>
-
-        <div class="bei-card">
-          <div class="bei-title">BEI 라벨 수량</div>
-          <div class="bei-controls">
-            <button class="btn-qty" id="beiMinus" aria-label="BEI 감소">−</button>
-            <span class="bei-val" id="beiQty">0</span>
-            <button class="btn-qty" id="beiPlus" aria-label="BEI 증가">＋</button>
-          </div>
-        </div>
+      <div class="printer-row" id="printerRow" style="display:none">
+        <span id="printerState" class="status-badge">프린터 확인 중</span>
+        <button class="btn-sub" id="settingsBtn">⚙ 프린터 설정</button>
       </div>
 
-      <!-- 출력 예정 항목 요약 태그 -->
+      <div class="item-grid" id="itemGrid"></div>
+
       <div class="mini-queue" id="queue">선택된 항목이 없습니다.</div>
+    </div>
+
+    <div class="card" id="paneList" style="flex:1; min-height:0;" hidden>
+      <div class="card-title">
+        <span>스캔·직접입력한 명단 (눌러서 불러오기)</span>
+        <span class="hist-ctl" style="display:flex;align-items:center;gap:6px;">
+          <select id="histDate"></select>
+          <button class="btn-danger mini-btn" id="histClear">목록 비우기</button>
+        </span>
+      </div>
+      <div class="hist-list" id="histList"></div>
     </div>
   </div>
 </div>
 
-<!-- 하단 메인 출력 실행 버튼 영역 -->
+<!-- 하단 인쇄 바 -->
 <div class="bottom-bar">
   <button class="btn-success" id="printBtn" disabled>🖨️ 라벨 일괄 출력</button>
   <button class="btn-share" id="shareBtn" disabled>📤 이미지로 공유출력<br><small style="font-weight:500">(mPrint 선택)</small></button>
-  <button class="btn-blood" id="bloodBtn" disabled>🩸 채혈대장용 인쇄</button>
   <button class="btn-neutral" id="resetSelections">선택 초기화</button>
+</div>
+
+<!-- 라벨 항목 설정 -->
+<div id="itemsModal" class="modal" hidden>
+  <div class="modal-box wide" id="itemsBox">
+    <h3>라벨 항목 설정</h3>
+    <p>
+      항목 하나가 선택 버튼 하나입니다. 출력 문구와 장수를 정하고, 대상자를 불러왔을 때 선택되는 방식을 고르세요.<br>
+      <b>기본 선택</b>: 항상 자동 선택 / <b>QR 값 따름</b>: QR의 일반검진(Q열)·대장암(R열) 값이 O이면 선택 / <b>눌러야만 선택</b>: 직접 눌러야 선택<br>
+      '이름만'을 체크한 라벨은 검사명 없이 순번·이름·생년월일만 출력합니다(채혈대장용).
+    </p>
+    <div id="itemsList"></div>
+    <div class="modal-actions">
+      <button class="btn-sub" id="itemAdd">＋ 항목 추가</button>
+      <button class="btn-neutral" id="itemsReset">기본값으로</button>
+      <button class="btn-main" id="itemsSave">저장</button>
+      <button class="btn-neutral" id="itemsClose">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 프린터 설정 (앱 전용) -->
+<div id="settingsModal" class="modal" hidden>
+  <div class="modal-box">
+    <h3>프린터 설정</h3>
+    <p>단위는 dot입니다. 203dpi 프린터 기준 8dot = 1mm (50×30mm = 400×240). 저장하면 이 기기에 기억됩니다.</p>
+    <div class="set-grid">
+      <label>라벨 가로(dot)<input id="set_width" type="number" inputmode="numeric"></label>
+      <label>라벨 세로(dot)<input id="set_length" type="number" inputmode="numeric"></label>
+      <label>갭 길이(dot)<input id="set_gap" type="number" inputmode="numeric"></label>
+      <label>용지 종류<select id="set_media"><option value="gap">갭(Gap)</option><option value="continuous">연속(Continuous)</option><option value="blackmark">블랙마크</option></select></label>
+      <label>인쇄 방식<select id="set_type"><option value="direct">감열(Direct)</option><option value="thermal">열전사</option></select></label>
+      <label>농도(0~20)<input id="set_density" type="number" inputmode="numeric"></label>
+      <label>X 위치(dot)<input id="set_offsetX" type="number" inputmode="numeric"></label>
+      <label>Y 위치(dot)<input id="set_offsetY" type="number" inputmode="numeric"></label>
+      <label>이미지 밝기(level)<input id="set_level" type="number" inputmode="numeric"></label>
+      <label>가로 여백(dot)<input id="set_marginH" type="number" inputmode="numeric"></label>
+      <label>세로 여백(dot)<input id="set_marginV" type="number" inputmode="numeric"></label>
+      <label>상단 글자 크기(px)<input id="set_fontHead" type="number" inputmode="numeric"></label>
+      <label>검사명 글자 크기(px)<input id="set_fontTest" type="number" inputmode="numeric"></label>
+      <label class="chk"><input id="set_dither" type="checkbox">디더링</label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-neutral" id="setReset">기본값</button>
+      <button class="btn-sub" id="setTest">테스트 출력</button>
+      <button class="btn-main" id="setSave">저장</button>
+      <button class="btn-neutral" id="setClose">닫기</button>
+    </div>
+  </div>
 </div>
 
 <div id="printRoot" aria-hidden="true"></div>
 
 <script>
-let person=null, stream=null, scanTimer=null, bei=0;
-const $=id=>document.getElementById(id);
+const NATIVE = !!window.AndroidPrinter;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+let person = null, stream = null, scanTimer = null;
+let lastRaw = null, lastSeen = 0, userStopped = false, starting = false;
+
+/* ============================================================
+   프린터 설정 (이 기기에 저장)
+   ============================================================ */
+const DEFAULTS = {width:400,length:240,gap:24,media:"gap",type:"direct",density:10,offsetX:0,offsetY:0,level:50,marginH:0,marginV:0,dither:false,fontHead:32,fontTest:60};
+function loadSettings(){
+  try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem("labelPrinterSettings")||"{}"))}
+  catch(e){return Object.assign({},DEFAULTS)}
+}
+function saveSettings(v){try{localStorage.setItem("labelPrinterSettings",JSON.stringify(v))}catch(e){}}
+
+/* ============================================================
+   라벨 항목 설정 (이 기기에 저장)
+   mode: always(기본 선택) / qr(QR 값 따름) / manual(눌러야만 선택)
+   ============================================================ */
+const ITEMS_KEY = "labelItemsV1";
+const DEFAULT_ITEMS = [
+  {id:"general",name:"일반검진",mode:"qr",qrField:"general",stepper:false,labels:[{text:"CBC",count:1,nameOnly:false},{text:"LFT",count:1,nameOnly:false},{text:"Urine",count:1,nameOnly:false}]},
+  {id:"extra",name:"추가검사",mode:"manual",qrField:"general",stepper:false,labels:[{text:"CBC",count:1,nameOnly:false},{text:"LFT",count:1,nameOnly:false}]},
+  {id:"colon",name:"대장암검진",mode:"qr",qrField:"colon_cancer",stepper:false,labels:[{text:"대장암",count:1,nameOnly:false}]},
+  {id:"bei",name:"BEI",mode:"manual",qrField:"general",stepper:true,labels:[{text:"BEI",count:1,nameOnly:false}]},
+  {id:"health",name:"보건증",mode:"manual",qrField:"general",stepper:false,labels:[{text:"보건증",count:1,nameOnly:false}]},
+  {id:"blood",name:"채혈대장용",mode:"manual",qrField:"general",stepper:false,labels:[{text:"",count:1,nameOnly:true}]}
+];
+const MODES = ["always","qr","manual"], QR_FIELDS = ["general","colon_cancer"];
+
+function normItem(o,i){
+  const labels = (Array.isArray(o.labels)?o.labels:[]).map(l=>({
+    text:String(l.text??"").trim(),
+    count:Math.max(1,Math.min(30,parseInt(l.count,10)||1)),
+    nameOnly:!!l.nameOnly
+  }));
+  return {
+    id:String(o.id||("i"+Date.now().toString(36)+i)),
+    name:String(o.name??"").trim()||"새 항목",
+    mode:MODES.includes(o.mode)?o.mode:"manual",
+    qrField:QR_FIELDS.includes(o.qrField)?o.qrField:"general",
+    stepper:!!o.stepper,
+    labels
+  };
+}
+function cloneDefaults(){return JSON.parse(JSON.stringify(DEFAULT_ITEMS)).map(normItem)}
+function loadItems(){
+  try{
+    const a=JSON.parse(localStorage.getItem(ITEMS_KEY)||"null");
+    if(Array.isArray(a)&&a.length)return a.map(normItem);
+  }catch(e){}
+  return cloneDefaults();
+}
+function saveItems(){try{localStorage.setItem(ITEMS_KEY,JSON.stringify(items))}catch(e){}}
+
+let items = loadItems();
+let sel = {};   // 항목 id -> 선택 수량 (0 = 해제)
+
+/* ============================================================
+   대상자
+   ============================================================ */
 function normFlag(v){return String(v??"").trim().toUpperCase()}
 function parsePayload(raw){
- let d;
- try{d=typeof raw==="string"?JSON.parse(raw):raw}catch(e){throw new Error("QR 내용이 JSON 형식이 아닙니다.")}
- const p={number:String(d.number??d.no??"").trim(),name:String(d.name??"").trim(),dob6:String(d.dob6??d.dob??"").replace(/[^0-9]/g,"").slice(0,6),general:normFlag(d.general),colon_cancer:normFlag(d.colon_cancer??d.colon)};
- if(!p.number||!p.name||p.dob6.length!==6)throw new Error("순번·이름·생년월일(6자리) 필수입니다.");
- return p;
+  let d;
+  try{d=typeof raw==="string"?JSON.parse(raw):raw}catch(e){throw new Error("QR 내용이 JSON 형식이 아닙니다.")}
+  const p={
+    number:String(d.number??d.no??"").trim(),
+    name:String(d.name??"").trim(),
+    dob6:String(d.dob6??d.dob??"").replace(/[^0-9]/g,"").slice(0,6),
+    general:normFlag(d.general),
+    colon_cancer:normFlag(d.colon_cancer??d.colon)
+  };
+  if(!p.number||!p.name||p.dob6.length!==6)throw new Error("순번·이름·생년월일(6자리)을 확인하세요.");
+  return p;
 }
 
-function applyPerson(p){
- person=p;
- $("pNum").textContent=p.number;
- $("pName").textContent=p.name;
- $("pDob").textContent=p.dob6;
- $("flags").textContent=`일반: ${p.general||"-"} / 대장암: ${p.colon_cancer||"-"}`;
- 
- $("general").checked=p.general==="O";
- $("colon").checked=p.colon_cancer==="O";
- syncCardState('general');
- syncCardState('colon');
- 
- bei=0;
- update();
- $("scanStatus").textContent="대상자 적용 완료";
- $("scanStatus").classList.add("active");
+// 새 대상자가 들어오면 설정에 따라 항목을 자동 선택
+function autoSelect(p){
+  sel={};
+  items.forEach(it=>{
+    let on=false;
+    if(it.mode==="always")on=true;
+    else if(it.mode==="qr")on=(it.qrField==="colon_cancer"?p.colon_cancer:p.general)==="O";
+    sel[it.id]=on?1:0;
+  });
 }
 
-function syncCardState(id){
- const chk = $(id);
- const card = $("card" + id.charAt(0).toUpperCase() + id.slice(1));
- if(card){
-   if(chk.checked) card.classList.add("checked");
-   else card.classList.remove("checked");
- }
+function setStatus(text,ok){
+  const el=$("scanStatus");
+  el.textContent=text;
+  el.classList.toggle("active",!!ok);
 }
 
-function toggleCheck(id){
- const chk = $(id);
- chk.checked = !chk.checked;
- syncCardState(id);
- update();
+let curEntry=null;   // 현재 대상자에 해당하는 당일 명단 항목
+
+function applyPerson(p,src){
+  person=p;
+  $("pNum").textContent=p.number;
+  $("pName").textContent=p.name;
+  $("pDob").textContent=p.dob6;
+  $("flags").textContent=`QR 일반: ${p.general||"-"} / 대장암: ${p.colon_cancer||"-"}`;
+  autoSelect(p);
+  if(src)curEntry=recordPerson(p,src);
+  update();
+  renderHist();
+  setStatus("적용: "+p.number+" "+p.name,true);
 }
 
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function clearPerson(){
+  lastRaw=null;
+  person=null;
+  curEntry=null;
+  sel={};
+  $("pNum").textContent="-";$("pName").textContent="-";$("pDob").textContent="-";
+  $("flags").textContent="QR 미확인";
+  update();
+  renderHist();
+  setStatus("대기 중",false);
+}
+
+function applyManual(){
+  try{
+    const p=parsePayload({number:$("mNum").value,name:$("mName").value,dob6:$("mDob").value});
+    applyPerson(p,"수기");
+    $("mNum").value="";$("mName").value="";$("mDob").value="";
+    if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  }catch(e){setStatus(e.message,false)}
+}
+$("applyManual").onclick=applyManual;
+$("clearPerson").onclick=clearPerson;
+["mNum","mName","mDob"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();applyManual()}}));
+$("mDob").addEventListener("input",e=>{e.target.value=e.target.value.replace(/[^0-9]/g,"").slice(0,6)});
+
+/* ============================================================
+   항목 버튼 / 라벨 목록
+   ============================================================ */
+function labelSummary(it){
+  if(!it.labels.length)return "라벨 없음";
+  return it.labels.map(l=>(l.nameOnly?"이름만":(l.text||"(문구 없음)"))+(l.count>1?"×"+l.count:"")).join(" · ");
+}
+function modeTag(it){
+  if(it.mode==="always")return "기본 선택";
+  if(it.mode==="qr")return "QR 따름("+(it.qrField==="colon_cancer"?"대장암":"일반")+")";
+  return "";
+}
+
+function renderGrid(){
+  const g=$("itemGrid");
+  g.innerHTML=items.map(it=>{
+    const q=sel[it.id]||0;
+    const right=it.stepper
+      ? `<div class="ic-step"><button data-step="-1" aria-label="감소">−</button><span>${q}</span><button data-step="1" aria-label="증가">＋</button></div>`
+      : `<div class="ic-check">${q>0?"✓":""}</div>`;
+    const tag=modeTag(it);
+    return `<div class="item-card${q>0?" on":""}" data-id="${esc(it.id)}">
+      <div><div class="ic-name">${esc(it.name)}</div><div class="ic-sub">${esc(labelSummary(it))}</div>${tag?`<div class="ic-tag">${esc(tag)}</div>`:""}</div>${right}</div>`;
+  }).join("")||'<div style="color:#64748b;padding:12px">항목이 없습니다. ⚙ 라벨 항목 설정에서 추가하세요.</div>';
+}
+
+$("itemGrid").addEventListener("click",e=>{
+  const card=e.target.closest(".item-card");if(!card)return;
+  const it=items.find(x=>x.id===card.dataset.id);if(!it)return;
+  const stepBtn=e.target.closest("button[data-step]");
+  const cur=sel[it.id]||0;
+  if(stepBtn){
+    sel[it.id]=Math.max(0,Math.min(30,cur+parseInt(stepBtn.dataset.step,10)));
+  }else{
+    sel[it.id]=cur>0?0:1;
+  }
+  update();
+});
 
 function getLabels(){
- if(!person)return [];
- const a=[];
- const add=(test,n=1)=>{for(let i=0;i<n;i++)a.push({type:"test",test})};
- if($("general").checked){add("CBC");add("LFT");add("Urine")}
- if($("extra").checked){add("CBC");add("LFT")}
- if(bei>0)add("BEI",bei);
- if($("colon").checked)add("대장암");
- return a;
+  if(!person)return [];
+  const a=[];
+  items.forEach(it=>{
+    const q=sel[it.id]||0;if(q<=0)return;
+    it.labels.forEach(l=>{
+      if(!l.nameOnly&&!l.text)return;
+      const n=l.count*(it.stepper?q:1);
+      for(let i=0;i<n;i++)a.push({test:l.text,nameOnly:l.nameOnly});
+    });
+  });
+  return a;
 }
 
 function update(){
- $("beiQty").textContent=bei;
- const labels=getLabels();
- if(labels.length){
-   $("queue").innerHTML = labels.map(x=>`<span class="queue-tag">${esc(x.test)}</span>`).join("");
- } else {
-   $("queue").textContent = "선택된 라벨이 없습니다.";
- }
- $("printBtn").disabled=!person||labels.length===0;
- $("shareBtn").disabled=!person||labels.length===0;
- $("bloodBtn").disabled=!person;
+  renderGrid();
+  const labels=getLabels();
+  if(labels.length){
+    const order=[],cnt={};
+    labels.forEach(x=>{const k=(x.nameOnly?"#":"")+x.test;if(!(k in cnt)){cnt[k]=0;order.push([k,x])}cnt[k]++});
+    $("queue").innerHTML=order.map(([k,x])=>`<span class="queue-tag">${esc(x.nameOnly?"(이름만)":x.test)}${cnt[k]>1?" ×"+cnt[k]:""}</span>`).join("")
+      +`<span style="margin-left:auto;font-weight:700">총 ${labels.length}장</span>`;
+  }else{
+    $("queue").textContent="선택된 라벨이 없습니다.";
+  }
+  $("printBtn").disabled=!person||labels.length===0;
+  $("shareBtn").disabled=!person||labels.length===0;
 }
 
-["general","extra","colon"].forEach(id=>{
- $(id).addEventListener("change", ()=>{
-   syncCardState(id);
-   update();
- });
+$("resetSelections").onclick=()=>{sel={};update()};
+
+/* ============================================================
+   당일 명단 (스캔·직접입력한 사람, 이 기기에 저장, 30일 보관)
+   ============================================================ */
+const HIST_KEY="labelHistoryV1";
+const pad2=n=>String(n).padStart(2,"0");
+const dateStr=d=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+const todayStr=()=>dateStr(new Date());
+const histKey=p=>[p.number,p.name,p.dob6].join("|");
+
+function loadHist(){
+  try{const a=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");return Array.isArray(a)?a:[]}
+  catch(e){return []}
+}
+let hist=loadHist();
+let histDay=todayStr();
+(function prune(){
+  const cut=dateStr(new Date(Date.now()-30*86400000));
+  hist=hist.filter(h=>h&&h.date>=cut);
+})();
+function saveHist(){try{localStorage.setItem(HIST_KEY,JSON.stringify(hist))}catch(e){}}
+
+function recordPerson(p,src){
+  const now=new Date(),date=todayStr(),key=histKey(p);
+  let h=hist.find(x=>x.date===date&&x.key===key);
+  if(!h){
+    h={date,key,time:`${pad2(now.getHours())}:${pad2(now.getMinutes())}`,number:p.number,name:p.name,dob6:p.dob6,
+       general:p.general,colon_cancer:p.colon_cancer,src,printed:0};
+    hist.push(h);
+  }else if(p.general||p.colon_cancer){
+    // 같은 사람을 QR로 다시 읽은 경우 QR 값으로 갱신
+    h.general=p.general;h.colon_cancer=p.colon_cancer;h.src=src;
+  }
+  saveHist();
+  return h;
+}
+
+function markPrinted(){
+  if(!curEntry)return;
+  curEntry.printed=(curEntry.printed||0)+1;
+  saveHist();
+  renderHist();
+}
+
+function showTab(name){
+  const list=name==="list";
+  $("paneSel").hidden=list;
+  $("paneList").hidden=!list;
+  $("tabSel").classList.toggle("on",!list);
+  $("tabList").classList.toggle("on",list);
+  if(list)renderHist();
+}
+$("tabSel").onclick=()=>showTab("sel");
+$("tabList").onclick=()=>showTab("list");
+
+function renderHist(){
+  const today=todayStr();
+  $("listCount").textContent=hist.filter(h=>h.date===today).length;
+
+  // 날짜 선택 (오늘 + 보관 중인 날짜)
+  const days=Array.from(new Set(hist.map(h=>h.date).concat([today]))).sort().reverse();
+  if(!days.includes(histDay))histDay=today;
+  $("histDate").innerHTML=days.map(d=>{
+    const lab=d===today?`오늘 (${d.slice(5).replace("-","/")})`:d.slice(5).replace("-","/");
+    return `<option value="${d}"${d===histDay?" selected":""}>${lab}</option>`;
+  }).join("");
+
+  const rows=hist.filter(h=>h.date===histDay).slice().reverse();
+  $("histList").innerHTML=rows.length?rows.map(h=>{
+    const flags=[h.general==="O"?"일반":"",h.colon_cancer==="O"?"대장암":""].filter(Boolean).join("·");
+    const meta=`${h.time} · ${h.src}${flags?" · "+flags:""}<br>${h.printed?`<span class="pr">✔ 출력 ${h.printed}회</span>`:"미출력"}`;
+    return `<div class="hist-row${h===curEntry?" on":""}" data-k="${esc(h.date+"|"+h.key)}">
+      <span class="hn">${esc(h.number)}</span><span class="hname">${esc(h.name)}</span><span class="hdob">${esc(h.dob6)}</span><span class="hmeta">${meta}</span></div>`;
+  }).join(""):'<div class="hist-empty">이 날짜의 명단이 없습니다.</div>';
+}
+
+$("histDate").onchange=e=>{histDay=e.target.value;renderHist()};
+$("histList").addEventListener("click",e=>{
+  const row=e.target.closest(".hist-row");if(!row)return;
+  const h=hist.find(x=>(x.date+"|"+x.key)===row.dataset.k);if(!h)return;
+  // 목록에서 선택 = 추가 출력을 위해 다시 불러오기 (명단에는 중복 추가하지 않음)
+  applyPerson({number:h.number,name:h.name,dob6:h.dob6,general:h.general||"",colon_cancer:h.colon_cancer||""});
+  curEntry=h;
+  renderHist();
+  showTab("sel");
+});
+$("histClear").onclick=()=>{
+  const b=$("histClear");
+  // 실수 방지: 한 번 더 눌러야 삭제
+  if(b.dataset.armed!=="1"){
+    b.dataset.armed="1";b.textContent="정말 비울까요? 한 번 더";
+    setTimeout(()=>{b.dataset.armed="";b.textContent="목록 비우기"},3000);
+    return;
+  }
+  b.dataset.armed="";b.textContent="목록 비우기";
+  if(curEntry&&curEntry.date===histDay)curEntry=null;
+  hist=hist.filter(h=>h.date!==histDay);
+  saveHist();
+  renderHist();
+};
+
+/* ============================================================
+   라벨 항목 설정 화면
+   ============================================================ */
+let draft=null;
+const optHtml=(v,cur,t)=>`<option value="${v}"${v===cur?" selected":""}>${t}</option>`;
+
+function editorItemHtml(it,i){
+  const labels=it.labels.map((l,j)=>`
+    <div class="ie-label" data-l="${j}">
+      <input class="t" type="text" data-lf="text" value="${esc(l.text)}" placeholder="${l.nameOnly?"(이름만 출력)":"출력 문구 (예: CBC)"}"${l.nameOnly?" disabled":""}>
+      <input class="n" type="number" min="1" max="30" inputmode="numeric" data-lf="count" value="${l.count}">
+      <span class="hint">장</span>
+      <label class="chk"><input type="checkbox" data-lf="nameOnly"${l.nameOnly?" checked":""}>이름만</label>
+      <button class="x" data-act="delLabel" aria-label="라벨 삭제">✕</button>
+    </div>`).join("");
+  return `
+  <div class="item-edit" data-i="${i}">
+    <div class="ie-row">
+      <label class="grow">항목 이름 (버튼에 표시)<input type="text" data-f="name" value="${esc(it.name)}"></label>
+      <label>선택 방식
+        <select data-f="mode">
+          ${optHtml("always",it.mode,"기본 선택")}
+          ${optHtml("qr",it.mode,"QR 값 따름")}
+          ${optHtml("manual",it.mode,"눌러야만 선택")}
+        </select>
+      </label>
+      ${it.mode==="qr"?`<label>따를 QR 항목
+        <select data-f="qrField">
+          ${optHtml("general",it.qrField,"일반검진 (Q열)")}
+          ${optHtml("colon_cancer",it.qrField,"대장암 (R열)")}
+        </select></label>`:""}
+      <label class="chk"><input type="checkbox" data-f="stepper"${it.stepper?" checked":""}>수량 조절(± 버튼)</label>
+    </div>
+    ${labels}
+    <div class="ie-actions">
+      <button class="btn-sub" data-act="addLabel">＋ 라벨 추가</button>
+      <button class="btn-neutral" data-act="up">▲ 위로</button>
+      <button class="btn-neutral" data-act="down">▼ 아래로</button>
+      <button class="btn-danger" data-act="del">항목 삭제</button>
+    </div>
+  </div>`;
+}
+
+function renderEditor(scrollToEnd){
+  const box=$("itemsBox"),top=box.scrollTop;
+  $("itemsList").innerHTML=draft.map(editorItemHtml).join("")||'<p>항목이 없습니다. ＋ 항목 추가를 누르세요.</p>';
+  box.scrollTop=scrollToEnd?box.scrollHeight:top;
+}
+
+$("itemsBtn").onclick=()=>{draft=JSON.parse(JSON.stringify(items));renderEditor();$("itemsModal").hidden=false;$("itemsBox").scrollTop=0};
+$("itemsClose").onclick=()=>{$("itemsModal").hidden=true};
+$("itemAdd").onclick=()=>{draft.push(normItem({name:"새 항목",mode:"manual",labels:[{text:"",count:1}]},draft.length));renderEditor(true)};
+$("itemsReset").onclick=()=>{draft=cloneDefaults();renderEditor()};
+$("itemsSave").onclick=()=>{
+  items=draft.map(normItem);
+  saveItems();
+  if(person)autoSelect(person);else sel={};
+  update();
+  $("itemsModal").hidden=true;
+};
+
+$("itemsList").addEventListener("input",e=>{
+  const t=e.target,row=t.closest(".item-edit");if(!row)return;
+  const it=draft[+row.dataset.i];if(!it)return;
+  if(t.dataset.f==="name")it.name=t.value;
+  else if(t.dataset.lf){
+    const l=it.labels[+t.closest(".ie-label").dataset.l];if(!l)return;
+    if(t.dataset.lf==="text")l.text=t.value;
+    else if(t.dataset.lf==="count")l.count=Math.max(1,Math.min(30,parseInt(t.value,10)||1));
+  }
+});
+$("itemsList").addEventListener("change",e=>{
+  const t=e.target,row=t.closest(".item-edit");if(!row)return;
+  const it=draft[+row.dataset.i];if(!it)return;
+  if(t.dataset.f==="mode"){it.mode=t.value;renderEditor()}
+  else if(t.dataset.f==="qrField")it.qrField=t.value;
+  else if(t.dataset.f==="stepper")it.stepper=t.checked;
+  else if(t.dataset.lf==="nameOnly"){
+    const l=it.labels[+t.closest(".ie-label").dataset.l];if(l){l.nameOnly=t.checked;renderEditor()}
+  }
+});
+$("itemsList").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]");if(!b)return;
+  const row=b.closest(".item-edit"),i=+row.dataset.i,it=draft[i];if(!it)return;
+  switch(b.dataset.act){
+    case "addLabel": it.labels.push({text:"",count:1,nameOnly:false}); break;
+    case "delLabel": it.labels.splice(+b.closest(".ie-label").dataset.l,1); break;
+    case "up": if(i>0)[draft[i-1],draft[i]]=[draft[i],draft[i-1]]; break;
+    case "down": if(i<draft.length-1)[draft[i+1],draft[i]]=[draft[i],draft[i+1]]; break;
+    case "del":
+      // 실수 방지: 한 번 더 눌러야 삭제 (confirm 대화상자는 앱에서 동작하지 않음)
+      if(b.dataset.armed!=="1"){
+        b.dataset.armed="1";b.textContent="정말 삭제? 한 번 더";
+        setTimeout(()=>{if(b.isConnected){b.dataset.armed="";b.textContent="항목 삭제"}},3000);
+        return;
+      }
+      draft.splice(i,1);
+      break;
+  }
+  renderEditor();
 });
 
-$("beiPlus").onclick=()=>{bei=Math.min(bei+1,30);update()};
-$("beiMinus").onclick=()=>{bei=Math.max(0,bei-1);update()};
-$("loadManual").onclick=()=>{try{applyPerson(parsePayload($("manual").value))}catch(e){$("scanStatus").textContent=e.message;$("scanStatus").classList.remove("active");}};
-$("clearPerson").onclick=()=>{
- person=null;
- $("pNum").textContent="-"; $("pName").textContent="-"; $("pDob").textContent="-";
- $("flags").textContent="미확인";
- $("general").checked=false; $("extra").checked=false; $("colon").checked=false;
- syncCardState('general'); syncCardState('extra'); syncCardState('colon');
- bei=0; update();
- $("scanStatus").textContent="대기 중"; $("scanStatus").classList.remove("active");
-};
-$("resetSelections").onclick=()=>{
- $("general").checked=false; $("extra").checked=false; $("colon").checked=false;
- syncCardState('general'); syncCardState('extra'); syncCardState('colon');
- bei=0; update();
-};
-
+/* ============================================================
+   QR 스캔 (계속 켜 둠, 새 QR이 보이면 즉시 교체)
+   ============================================================ */
 let detector=null, scanCanvas=null, scanCtx=null;
 
 async function decodeFrame(){
- const v=$("video");
- if(!v.videoWidth)return null;
- if(detector){
-  const c=await detector.detect(v);
-  return c.length?c[0].rawValue:null;
- }
- const scale=Math.min(1,640/v.videoWidth);
- scanCanvas.width=Math.round(v.videoWidth*scale);
- scanCanvas.height=Math.round(v.videoHeight*scale);
- scanCtx.drawImage(v,0,0,scanCanvas.width,scanCanvas.height);
- const img=scanCtx.getImageData(0,0,scanCanvas.width,scanCanvas.height);
- const r=jsQR(img.data,img.width,img.height,{inversionAttempts:"dontInvert"});
- return r?r.data:null;
+  const v=$("video");
+  if(!v.videoWidth)return null;
+  if(detector){
+    const c=await detector.detect(v);
+    return c.length?c[0].rawValue:null;
+  }
+  const scale=Math.min(1,640/v.videoWidth);
+  scanCanvas.width=Math.round(v.videoWidth*scale);
+  scanCanvas.height=Math.round(v.videoHeight*scale);
+  scanCtx.drawImage(v,0,0,scanCanvas.width,scanCanvas.height);
+  const img=scanCtx.getImageData(0,0,scanCanvas.width,scanCanvas.height);
+  const r=jsQR(img.data,img.width,img.height,{inversionAttempts:"dontInvert"});
+  return r?r.data:null;
 }
 
 async function startScan(){
- // 카메라는 HTTPS(또는 localhost)에서만 허용됨
- if(!window.isSecureContext||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-  $("scanStatus").textContent="HTTPS 주소로 열어야 카메라 사용 가능";
-  return;
- }
- // 1순위: 브라우저 내장 BarcodeDetector, 2순위: jsQR(오프라인 포함)
- detector=null;
- if("BarcodeDetector" in window){
-  try{
-   const fm=await BarcodeDetector.getSupportedFormats();
-   if(fm.includes("qr_code"))detector=new BarcodeDetector({formats:["qr_code"]});
-  }catch(e){}
- }
- if(!detector){
-  if(typeof jsQR==="undefined"){$("scanStatus").textContent="QR 해독 모듈 없음(jsQR.js 확인)";return;}
-  scanCanvas=document.createElement("canvas");
-  scanCtx=scanCanvas.getContext("2d",{willReadFrequently:true});
- }
- try{
-  stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
- }catch(e){
-  const m={NotAllowedError:"카메라 권한을 허용해 주세요",NotFoundError:"카메라를 찾을 수 없음",NotReadableError:"다른 앱이 카메라 사용 중"};
-  $("scanStatus").textContent=m[e.name]||("카메라 오류: "+e.name);
-  return;
- }
- try{
-  $("video").srcObject=stream;$("video").style.display="block";await $("video").play();
-  $("startScan").disabled=true;$("stopScan").disabled=false;$("scanStatus").textContent="스캔 중...";
-  const scan=async()=>{
-   if(!stream)return;
-   try{
-    const raw=await decodeFrame();
-    if(raw){
-     try{applyPerson(parsePayload(raw));stopScan();return;}
-     catch(e){$("scanStatus").textContent=e.message}
-    }
-   }catch(e){}
-   scanTimer=setTimeout(scan,250);
-  };
-  scan();
- }catch(e){
-  stopScan();
-  $("scanStatus").textContent="카메라 시작 실패";
- }
+  if(stream||starting)return;
+  starting=true;
+  try{await startScanInner()}finally{starting=false}
 }
 
-function stopScan(){if(scanTimer)clearTimeout(scanTimer);scanTimer=null;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$("video").style.display="none";$("startScan").disabled=false;$("stopScan").disabled=true}
-$("startScan").onclick=startScan;$("stopScan").onclick=stopScan;
+async function startScanInner(){
+  if(!window.isSecureContext||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    setStatus("HTTPS 주소로 열어야 카메라 사용 가능",false);
+    return;
+  }
+  detector=null;
+  if("BarcodeDetector" in window){
+    try{
+      const fm=await BarcodeDetector.getSupportedFormats();
+      if(fm.includes("qr_code"))detector=new BarcodeDetector({formats:["qr_code"]});
+    }catch(e){}
+  }
+  if(!detector){
+    if(typeof jsQR==="undefined"){setStatus("QR 해독 모듈 없음(jsQR.js 확인)",false);return;}
+    scanCanvas=document.createElement("canvas");
+    scanCtx=scanCanvas.getContext("2d",{willReadFrequently:true});
+  }
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+  }catch(e){
+    const m={NotAllowedError:"카메라 권한을 허용해 주세요",NotFoundError:"카메라를 찾을 수 없음",NotReadableError:"다른 앱이 카메라 사용 중"};
+    setStatus(m[e.name]||("카메라 오류: "+e.name),false);
+    return;
+  }
+  try{
+    $("video").srcObject=stream;$("video").style.display="block";await $("video").play();
+    $("startScan").disabled=true;$("stopScan").disabled=false;
+    if(!person)setStatus("스캔 중...",false);
+    const scan=async()=>{
+      if(!stream)return;
+      try{
+        const raw=await decodeFrame();
+        if(raw){
+          const now=Date.now();
+          const isNew=(raw!==lastRaw)||(now-lastSeen>1500);
+          lastSeen=now;
+          if(isNew){
+            lastRaw=raw;
+            try{
+              applyPerson(parsePayload(raw),"QR");
+              if(navigator.vibrate)navigator.vibrate(60);
+            }catch(e){setStatus(e.message,false)}
+          }
+        }
+      }catch(e){}
+      scanTimer=setTimeout(scan,200);
+    };
+    scan();
+  }catch(e){
+    stopScan();
+    setStatus("카메라 시작 실패",false);
+  }
+}
 
-function makeLabel(test){
- const d=document.createElement("div");d.className="print-label";
- d.innerHTML=`<div class="basic">${esc(person.number)} - ${esc(person.name)} - ${esc(person.dob6)}</div><div class="test">${esc(test)}</div>`;
- return d;
+function stopScan(){
+  if(scanTimer)clearTimeout(scanTimer);
+  scanTimer=null;
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+  $("video").style.display="none";
+  $("startScan").disabled=false;$("stopScan").disabled=true;
+}
+$("startScan").onclick=()=>{userStopped=false;startScan()};
+$("stopScan").onclick=()=>{userStopped=true;stopScan()};
+window.addEventListener("load",()=>{startScan()});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!stream&&!userStopped)startScan()});
+
+/* ============================================================
+   출력 (PWA: 브라우저 인쇄 / 앱: Bixolon SDK 직접 출력)
+   ============================================================ */
+function makeLabel(l){
+  const d=document.createElement("div");d.className="print-label";
+  const head=`${esc(person.number)} - ${esc(person.name)} - ${esc(person.dob6)}`;
+  d.innerHTML=l.nameOnly
+    ? `<div class="blood-basic">${head}</div>`
+    : `<div class="basic">${head}</div><div class="test">${esc(l.test)}</div>`;
+  return d;
 }
 
 function printLabels(){
- const root=$("printRoot");root.innerHTML="";
- getLabels().forEach(x=>root.appendChild(makeLabel(x.test)));
- window.print();
+  const labels=getLabels();if(!labels.length)return;
+  if(NATIVE){
+    if(nativePrint(labels.map(x=>drawLabelCanvas(x.test,x.nameOnly?"blood":""))))markPrinted();
+    return;
+  }
+  const root=$("printRoot");root.innerHTML="";
+  labels.forEach(x=>root.appendChild(makeLabel(x)));
+  window.print();
+  markPrinted();
 }
+$("printBtn").onclick=printLabels;
 
-function printBlood(){
- const root=$("printRoot");root.innerHTML="";
- const elem=document.createElement("div");elem.className="print-label";
- elem.innerHTML=`<div class="blood-basic">${esc(person.number)} - ${esc(person.name)} - ${esc(person.dob6)}</div>`;
- root.appendChild(elem);window.print();
-}
-
-$("printBtn").onclick=printLabels;$("bloodBtn").onclick=printBlood;
-// ---- 이미지(PNG) 공유 출력: 50x30mm @203dpi = 400x240px ----
-function drawLabelCanvas(test){
- const W=400,H=240,c=document.createElement("canvas");c.width=W;c.height=H;
- const x=c.getContext("2d");
- x.fillStyle="#fff";x.fillRect(0,0,W,H);
- x.fillStyle="#000";x.textBaseline="middle";x.textAlign="center";
- const fam='"Malgun Gothic","Noto Sans KR",Arial,sans-serif';
- const fit=(t,size,max)=>{x.font=`700 ${size}px ${fam}`;while(x.measureText(t).width>max&&size>12){size-=2;x.font=`700 ${size}px ${fam}`}};
- const head=`${person.number} - ${person.name} - ${person.dob6}`;
- fit(head,32,380);x.fillText(head,W/2,42);
- fit(test,88,380);x.fillText(test,W/2,150);
- return c;
+// 라벨 이미지: 50x30mm @203dpi = 400x240px (설정값 따름)
+function drawLabelCanvas(test,kind,p){
+  p=p||person;
+  const st=loadSettings();
+  const W=st.width,H=st.length,k=W/400;
+  const c=document.createElement("canvas");c.width=W;c.height=H;
+  const x=c.getContext("2d");
+  x.fillStyle="#fff";x.fillRect(0,0,W,H);
+  x.fillStyle="#000";x.textBaseline="middle";x.textAlign="center";
+  const fam='"Malgun Gothic","Noto Sans KR",Arial,sans-serif';
+  const fit=(t,size,max)=>{x.font=`700 ${size}px ${fam}`;while(x.measureText(t).width>max&&size>12){size-=2;x.font=`700 ${size}px ${fam}`}};
+  const head=`${p.number} - ${p.name} - ${p.dob6}`;
+  const maxW=W-Math.round(20*k);
+  if(kind==="blood"){
+    fit(head,Math.round(40*k),maxW);x.fillText(head,W/2,H*0.22);
+  }else{
+    fit(head,Math.round(st.fontHead*k),maxW);x.fillText(head,W/2,H*0.175);
+    fit(test,Math.round(st.fontTest*k),maxW);x.fillText(test,W/2,H*0.62);
+  }
+  return c;
 }
 
 async function shareLabels(){
- const labels=getLabels();
- if(!person||!labels.length)return;
- const st=$("scanStatus");
- try{
-  const safe=String(person.number).replace(/[^0-9A-Za-z]/g,"_")||"x";
-  const files=[];
-  for(let i=0;i<labels.length;i++){
-   const c=drawLabelCanvas(labels[i].test);
-   const blob=await new Promise(r=>c.toBlob(r,"image/png"));
-   files.push(new File([blob],`label_${safe}_${String(i+1).padStart(2,"0")}.png`,{type:"image/png"}));
+  const labels=getLabels();
+  if(!person||!labels.length)return;
+  try{
+    const safe=String(person.number).replace(/[^0-9A-Za-z]/g,"_")||"x";
+    const files=[];
+    for(let i=0;i<labels.length;i++){
+      const c=drawLabelCanvas(labels[i].test,labels[i].nameOnly?"blood":"");
+      const blob=await new Promise(r=>c.toBlob(r,"image/png"));
+      files.push(new File([blob],`label_${safe}_${String(i+1).padStart(2,"0")}.png`,{type:"image/png"}));
+    }
+    if(!navigator.canShare||!navigator.canShare({files})){setStatus("이 기기는 파일 공유를 지원하지 않음",false);return;}
+    await navigator.share({files});
+    setStatus(`공유 완료 (${files.length}장)`,true);
+    markPrinted();
+  }catch(e){
+    if(e&&e.name==="AbortError")return;
+    setStatus("공유 오류: "+((e&&e.name)||"unknown"),false);
   }
-  if(!navigator.canShare||!navigator.canShare({files})){st.textContent="이 기기는 파일 공유를 지원하지 않음";st.classList.remove("active");return;}
-  await navigator.share({files});
-  st.textContent=`공유 완료 (${files.length}장)`;st.classList.add("active");
- }catch(e){
-  if(e&&e.name==="AbortError")return;
-  st.textContent="공유 오류: "+((e&&e.name)||"unknown");st.classList.remove("active");
- }
 }
 $("shareBtn").onclick=shareLabels;
 
+/* ---- 안드로이드 앱(Bixolon SDK) 직접 출력 ---- */
+function setPrinterBadge(state,msg){
+  const el=$("printerState");
+  const text={
+    connected:"🖨 프린터 연결됨",
+    connecting:"프린터 연결 중...",
+    disconnected:"프린터 연결 안 됨 (눌러서 다시 연결)",
+    nodevice:"프린터(USB) 감지 안 됨 — OTG 연결 확인 (눌러서 다시 찾기)",
+    nopermission:"USB 사용 권한을 허용해 주세요",
+    printing:msg||"출력 전송 중...",
+    done:"✅ 출력 완료",
+    error:"⚠ "+(msg||"오류")
+  }[state]||String(state);
+  el.textContent=text;
+  el.classList.toggle("err",["disconnected","nodevice","nopermission","error"].includes(state));
+  el.classList.toggle("active",state==="connected"||state==="done");
+  if(state==="done"||state==="error"){
+    setTimeout(()=>{try{setPrinterBadge(AndroidPrinter.getState())}catch(e){}},2500);
+  }
+}
+window.onPrinterState=(state,msg)=>setPrinterBadge(state,msg);
+
+function nativePrint(canvases){
+  if(!canvases.length)return false;
+  try{
+    AndroidPrinter.print(JSON.stringify({settings:loadSettings(),labels:canvases.map(c=>c.toDataURL("image/png"))}));
+    setPrinterBadge("printing","출력 전송 중... ("+canvases.length+"장)");
+    return true;
+  }catch(e){setPrinterBadge("error","전송 실패");return false}
+}
+
+if(NATIVE){
+  $("printerRow").style.display="flex";
+  $("shareBtn").style.display="none";
+  document.querySelector(".bottom-bar").classList.add("native");
+  $("printerState").onclick=()=>{try{AndroidPrinter.connect()}catch(e){}};
+  try{setPrinterBadge(AndroidPrinter.getState())}catch(e){}
+
+  const SET_NUM=["width","length","gap","density","offsetX","offsetY","level","marginH","marginV","fontHead","fontTest"];
+  const fillForm=v=>{
+    SET_NUM.forEach(k=>{$("set_"+k).value=v[k]});
+    $("set_media").value=v.media;$("set_type").value=v.type;$("set_dither").checked=!!v.dither;
+  };
+  const readForm=()=>{
+    const v={};
+    SET_NUM.forEach(k=>{const n=parseInt($("set_"+k).value,10);v[k]=isNaN(n)?DEFAULTS[k]:n});
+    v.media=$("set_media").value;v.type=$("set_type").value;v.dither=$("set_dither").checked;
+    return v;
+  };
+  $("settingsBtn").onclick=()=>{fillForm(loadSettings());$("settingsModal").hidden=false};
+  $("setClose").onclick=()=>{$("settingsModal").hidden=true};
+  $("setSave").onclick=()=>{saveSettings(readForm());$("settingsModal").hidden=true};
+  $("setReset").onclick=()=>fillForm(DEFAULTS);
+  $("setTest").onclick=()=>{
+    saveSettings(readForm());
+    nativePrint([drawLabelCanvas("TEST","",{number:"1",name:"테스트",dob6:"000000"})]);
+  };
+}
+
 window.addEventListener("afterprint",()=>{$("printRoot").innerHTML=""});
-if("serviceWorker"in navigator && location.protocol==="https:")window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+if(!NATIVE && "serviceWorker" in navigator && location.protocol==="https:")window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+
+update();
+renderHist();
 </script>
 </body>
 </html>
